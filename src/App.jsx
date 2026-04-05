@@ -83,7 +83,7 @@ async function analizzaCrisi(crisi, onChunk) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "x-api-key": "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",
+      "x-api-key": "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",
       "anthropic-version": "2023-06-01",
       "anthropic-dangerous-direct-browser-access": "true",
     },
