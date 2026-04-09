@@ -119,7 +119,7 @@ async function analizzaCrisi(crisi) {
     headers: {
       "Content-Type": "application/json",
       "anthropic-version": "2023-06-01",
-       "x-api-key": "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",
+      "x-api-key": "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",
       "anthropic-dangerous-direct-browser-access": "true",
     },
     body: JSON.stringify({
@@ -130,15 +130,15 @@ async function analizzaCrisi(crisi) {
     }),
   });
   const data = await response.json();
+  if (data.error) throw new Error(data.error.message || JSON.stringify(data.error));
   let raw = "";
   for (const block of data.content || []) {
     if (block.type === "text") raw += block.text;
   }
-  const clean = raw.replace(/```json|```/g, "").trim();
-  const start = clean.indexOf("{");
-  const end = clean.lastIndexOf("}");
-  if (start === -1 || end === -1) throw new Error("Risposta non JSON: " + clean.slice(0, 200));
-  return JSON.parse(clean.slice(start, end + 1));
+  raw = raw.replace(/```json|```/g, "").replace(/<[^>]+>/g, "").trim();
+  const match = raw.match(/\{[\s\S]*"L1"[\s\S]*"variabile_critica"[\s\S]*\}/);
+  if (!match) throw new Error("Risposta non JSON: " + raw.slice(0, 300));
+  return JSON.parse(match[0]);
 }
 
 // ── strip tags ───────────────────────────────────────────────────────────
