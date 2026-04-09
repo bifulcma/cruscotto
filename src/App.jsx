@@ -119,6 +119,7 @@ async function analizzaCrisi(crisi) {
     headers: {
       "Content-Type": "application/json",
       "anthropic-version": "2023-06-01",
+       "x-api-key": "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",
       "anthropic-dangerous-direct-browser-access": "true",
     },
     body: JSON.stringify({
